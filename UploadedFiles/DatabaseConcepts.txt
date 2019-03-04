@@ -1,0 +1,148 @@
+from employee table,
+
+select record with max salary
+select highest salary
+select 2nd highest salary record
+select range of emp based on salary
+select emp name highest salary and department
+return highest salary name department name for each dept.
+
+
+name with starting with char 'a'.
+
+name with starting with anything and second char is 'a'.
+
+
+		Join
+		-------
+
+Inner Join -  rows with all matching values
+
+Left inner join - All records from left side table and matching records from the right table
+
+Right inner join - All records from right side table and matching records in the left
+
+Full outer join - All records from both table 
+
+
+
+		Normalization
+		-------------------
+
+--1st Normal Form and           
+	 Atomic Values /Split down columns and rows
+
+--2nd Normal Form and       
+	   Composite keys/Partial Dependence / Split down tables
+
+--3rd Normal Form and          
+	 Transitive Dependence
+
+--4th Normal Form and          
+	 Multi-Value Facts
+
+		Views
+		--------
+
+	It is a restricted pseudo table. Only for select other operations not possible.
+	use ful for creating reports.secure and view only for selected data from more table.
+	The view is created and saved under views.
+
+	Create view emp_view as select name, position, salary from employee where ....;
+
+	The view is created and saved under views.
+
+		Truncate
+		-----------
+
+	delete all data in a table except schema.
+
+		Index
+		-------
+
+	Index based on column to speed up search. But slows down insert and update.
+
+	single coloumn index :
+
+		CREATE INDEX name_dx ON dummy(first_name);
+
+	Multicolumn Indexes :		
+
+		CREATE INDEX index_name ON table_name (column1_name, column2_name);
+
+	Unique Indexes :
+
+		Unique indexes are used not only for performance, but also for data integrity. A unique index does not allow any duplicate values to be inserted into the table. The basic syntax is as follows -
+
+		CREATE UNIQUE INDEX index_name on table_name (column_name);
+		
+	Implicit indexes :
+		
+	Implicit indexes are indexes that are automatically created by the database server when an object is created. Indexes are automatically created
+	for primary key constraints and unique constraints.
+
+
+   		Trigger
+		---------
+
+	PostgreSQL Triggers are database callback functions, which are automatically performed/invoked when a specified database event occurs.
+
+	Before/ After / Instead of the operation is attempted on a row (before constraints are checked and the INSERT, UPDATE or DELETE is attempted)	
+
+	A trigger that is marked FOR EACH ROW is called once for every row that the operation modifies. In contrast, a trigger that is marked FOR EACH STATEMENT only executes once for any given operation, regardless of how many rows it modifies.
+
+                	NEW.column-name and OLD.column-name
+
+	If multiple triggers of the same kind are defined for the same event, they will be fired in alphabetical order by name.
+
+	A CONSTRAINT option when specified creates a constraint trigger. This is the same as a regular trigger except that the timing of the trigger firing can be adjusted using SET CONSTRAINTS. 
+
+	Constraint triggers are expected to raise an exception when the constraints they implement are violated.
+
+	Create a function to act on the trigger -
+
+		create or replace function auditfunc() returns trigger as $extrigger$
+		Begin
+			insert into position_log values(old.employee_id, new.position, old.position, current_timestamp);
+		return new;
+		end
+		$extrigger$ LANGUAGE plpgsql;
+
+
+	Create a trigger to a particular event - 
+
+		CREATE TRIGGER position_update_trigger [BEFORE | AFTER | INSTEAD OF ] UPDATE ON employee
+		FOR EACH ROW EXECUTE PROCEDURE auditfunc();
+
+
+			SUB QUERY
+			-------------------
+
+	Subqueries must be enclosed within parentheses.
+
+	A subquery can have only one column in the SELECT clause, unless multiple columns are in the main query for the subquery to compare its selected columns.
+
+	An ORDER BY cannot be used in a subquery, although the main query can use an ORDER BY. The GROUP BY can be used to perform the same function as the ORDER BY in a subquery.
+
+	Subqueries that return more than one row can only be used with multiple value operators, such as the IN, EXISTS, NOT IN, ANY/SOME, ALL operator.
+
+	The BETWEEN operator cannot be used with a subquery; however, the BETWEEN can be used within the subquery.
+
+
+			TRANSACTIONS
+			------------------------
+
+
+	Atomicity - Ensures that all operations within the work unit are completed successfully; otherwise, the transaction is aborted at the point of failure and previous operations are rolled back to their former state.
+
+	Consistency - Ensures that the database properly changes states upon a successfully committed transaction.
+
+	Isolation - Enables transactions to operate independently of and transparent to each other.
+
+	Durability - Ensures that the result or effect of a committed transaction persists in case of a system failure.
+
+		Begin or Begin transaction
+
+		Commit or End transaction
+		
+		Rollback
